@@ -2,6 +2,8 @@ from django.shortcuts import redirect, render, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate , login as login_django , logout
 from django.contrib.auth.decorators import login_required
+from usuarios.models import Question
+
 
 def cadastro(request):
 
@@ -53,10 +55,37 @@ def plataforma(request):
     
     #return HttpResponse("Você precisa estar logado!")
 
-#@login_required
+@login_required
 def home(request):
-    return render(request,'home.html')
+    #pegar dados das perguntas
+    #perguntas =Question.objects.all()
+    #pegando nome do usuário
+    #username =request.user.username
+    return render(request,'home.html',{'perguntas':perguntas})
+
+def perguntas(request):
+    #pegar dados das perguntas
+    perguntas =Question.objects.all()
+    #pegando nome do usuário
+    username =request.user.username
+    return render(request,'pergunta.html',{'perguntas':perguntas})
+
+
+def usuarios(request):
+    #pegar dados das perguntas
+    usuarios =User.objects.all()
+    #pegando nome do usuário
+    #username =request.user.username
+    return render(request,'usuarios.html',{'usuarios':usuarios})
+
 
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+
+def about(request):
+    
+    return render(request,'about.html')
+
